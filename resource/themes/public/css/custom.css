@@ -1,0 +1,165 @@
+.text-white {
+  color: #FFFFFF;
+}
+
+.text-grey {
+  color : #717F86;
+}
+
+.text-green{
+  color : #2D854F;
+}
+
+.text-capitalize{
+  text-transform: capitalize;
+}
+
+.text-bolder{
+  font-weight: bolder;
+}
+
+.bg-white{
+  background-color: #FFFFFF;
+}
+
+.bg-green-old{
+  background-color: #0B854F;
+}
+
+.box-shadow-disable{
+  box-shadow: 0 0 0 0 #ffffff !important;
+}
+
+.form-control-static{
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.items {
+  color: #5E696F;
+  font: 14px "Avenir LT W01 95 Black",Arial,Helvetica,sans-serif;
+  list-style: none;
+  letter-spacing: 1px;
+  margin: 0;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.items > li{
+  display: inline-block;
+  border-left : 1px solid #717F86;
+  padding: 10px 30px;
+  vertical-align: middle;
+}
+
+.items > li:last-child{
+  border-left : 1px solid #717F86;
+}
+
+.items > li:first-child{
+  border : none;
+}
+
+/*Header Nav Custom*/
+.navbar-default .navbar-nav > li > a {
+  color : #FFFFFF;
+}
+
+.hero-overlay {
+  background-color: #0B854F;
+}
+
+/* NIFTY NOTIFICATION */
+/*======================================*/
+.alert-wrap {
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+  transition: max-height 0.7s linear;
+}
+.alert-wrap > .alert {
+  margin: 0;
+  box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.35);
+  border-radius: 0;
+  text-align: left;
+}
+.alert-wrap > .alert > .media {
+  margin: 0;
+}
+.alert-wrap > .alert > .media > .media-body {
+  min-width: 150px;
+  width: auto;
+  vertical-align: middle;
+}
+#page-alert > .alert-wrap > .alert {
+  box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.04);
+}
+.alert-wrap.in {
+  max-height: 500px;
+  transition: max-height 1s linear;
+}
+.floating-container .animated.alert-wrap {
+  overflow: visible;
+}
+.floating-container .animated.alert-wrap > .alert {
+  border-radius: 0;
+}
+.alert-message,
+.alert-title {
+  margin-bottom: 1px;
+  padding-right: 2ex;
+}
+.alert-title {
+  font-size: 1.12em;
+}
+.alert-title:empty {
+  display: none;
+}
+.alert-primary .alert-icon {
+  color: #fff;
+}
+.alert-info .alert-icon {
+  color: #fff;
+}
+.alert-success .alert-icon {
+  color: #fff;
+}
+.alert-warning .alert-icon {
+  color: #fff;
+}
+.alert-danger .alert-icon {
+  color: #fff;
+}
+.alert-mint .alert-icon {
+  color: #fff;
+}
+.alert-purple .alert-icon {
+  color: #fff;
+}
+.alert-pink .alert-icon {
+  color: #fff;
+}
+.alert-dark .alert-icon {
+  color: #fff;
+}
+
+/*List style*/
+ul{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+ol{
+  padding-left : 50px;
+  list-style: number;
+}
+
+/*select 2*/
+.select2-container {
+  width: 100% !important;
+}
+
+body{
+  height: 100%
+}

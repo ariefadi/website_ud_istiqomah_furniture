@@ -1,0 +1,92 @@
+<div class="row bg-title">
+  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <h4 class="page-title">Profil</h4>
+  </div>
+  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+    <ol class="breadcrumb">
+      <li><a href="#">Home</a></li>
+      <li class="active">Profil</li>
+    </ol>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4 col-xs-12">
+    <div class="white-box">
+      <div class="user-bg"> 
+        <img alt="user" src="{$BASEURL}resource/doc/images/bg-img/profile-menu.png" width="100%">
+        <div class="overlay-box">
+          <div class="user-content">
+            <a href="javascript:void(0)"><img src="{$com_user.personal_img}" class="thumb-lg img-circle" alt="img"></a>
+            <h4 class="text-white">{$com_user.nama}</h4>
+            <h5 class="text-white">{$com_user.user_mail}</h5> 
+          </div>
+        </div>
+      </div>
+      <div class="user-btm-box">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <i class="fa fa-credit-card fa-1x icon-fw"></i> {$com_user.nik}
+          </li>
+          <li class="list-group-item">
+            <i class="fa fa-map-marker fa-1x icon-fw"></i> {$com_user.alamat}
+          </li>
+          <li class="list-group-item">
+            <i class="fa fa-venus-mars fa-1x icon-fw"></i> {if $com_user.jenis_kelamin == "L"} Laki-Laki{else} Perempuan{/if}
+          </li>
+          <li class="list-group-item">
+            <i class="fa fa-mobile fa-1x icon-fw"></i> {$com_user.telp}
+          </li>
+        </ul>
+        <div class="col-md-12 text-center">
+          <a href="{$config->site_url('login/welcome/logout_process')}" class="btn btn-md btn-block btn-danger">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8 col-xs-12">
+    <div class="white-box">
+      <ul class="nav customtab nav-tabs" role="tablist">
+        <li role="presentation" class="nav-item">
+          <a href="#settings" class="nav-link active" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="true">
+            <span class="visible-xs"><i class="fa fa-cog"></i></span> <span class="hidden-xs">Ubah Password</span>
+          </a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="settings" aria-expanded="true">
+          <!-- notification template -->
+          {include file="base/templates/notification.html"}
+          <!-- end of notification template-->
+          <form class="form-horizontal form-material" action="{$config->site_url('home/profil/update_user')}" method="post">
+            <div class="form-group">
+              <label class="col-form-label col-md-3">Password Lama</label>
+              <div class="col-md-6">
+                <input type="password" class="form-control" name="old_password" value="">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-form-label col-md-3">Password Baru</label>
+              <div class="col-md-6">
+                <input type="password" class="form-control" name="new_password" value="">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-form-label col-md-3">Konfirmasi Password Baru</label>
+              <div class="col-md-6">
+                <input type="password" class="form-control" name="new_password_confirm" value="">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-form-label col-md-3"></label>
+              <div class="col-md-6">
+                <button type="submit" name="button" class="btn btn-sm btn-success">
+                  <i class="fa fa-check"></i> Simpan
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

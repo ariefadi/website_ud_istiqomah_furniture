@@ -1,0 +1,264 @@
+<?php /* Smarty version Smarty-3.0.7, created on 2019-05-30 22:44:07
+         compiled from "application/views/informasi/data_pelanggan/add.html" */ ?>
+<?php /*%%SmartyHeaderCode:1658986205ceffa4726f6a0-88145699%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '273788c136593f6cffc767c7f11d61223c71ae84' => 
+    array (
+      0 => 'application/views/informasi/data_pelanggan/add.html',
+      1 => 1559231044,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '1658986205ceffa4726f6a0-88145699',
+  'function' => 
+  array (
+  ),
+  'has_nocache_code' => false,
+)); /*/%%SmartyHeaderCode%%*/?>
+<div class="row bg-title">
+  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <h4 class="page-title hidden-xs"><?php echo $_smarty_tpl->getVariable('page_title')->value;?>
+</h4>
+    <h4 class="page-title text-center visible-xs"><?php echo $_smarty_tpl->getVariable('page_title')->value;?>
+</h4>
+  </div>
+  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12 hidden-xs">
+    <ol class="breadcrumb">
+      <li><a href="#">Informasi</a></li>
+      <li><a href="<?php echo $_smarty_tpl->getVariable('config')->value->site_url('informasi/data_pelanggan');?>
+"><?php echo $_smarty_tpl->getVariable('page_title')->value;?>
+</a></li>
+      <li class="active">Tambah</li>
+    </ol>
+  </div>
+</div>
+<div class="row" id="app">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Tambah Data Pelanggan
+        <div class="panel-btn">
+          <a href="<?php echo $_smarty_tpl->getVariable('config')->value->site_url('informasi/data_pelanggan');?>
+" class="btn btn-outline btn-default btn-sm"><i class="fa fa-angle-left"></i><span class="hidden-xs"> Kembali</span></a>
+        </div>
+      </div>
+      <div class="panel-body">
+        <!-- notification template -->
+        <?php $_template = new Smarty_Internal_Template("base/templates/notification.html", $_smarty_tpl->smarty, $_smarty_tpl, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null);
+ echo $_template->getRenderedTemplate();?><?php unset($_template);?>
+        <!-- end of notification template-->
+        <form class="form-horizontal" id="addForm" v-on:submit.prevent="addProcess">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Nama Pelanggan <br>
+              <small class="form-text text-danger">Wajib diisi</small>
+            </label>
+            <div class="col-md-7">
+              <input type="text" v-model="input.pelanggan_nama" name="pelanggan_nama" maxlength="200" class="form-control" placeholder="Nama Pelanggan" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Telepon <br>
+              <small class="form-text text-danger">Wajib diisi</small>
+            </label>
+            <div class="col-md-3">
+              <input type="text" v-model="input.pelanggan_telp" name="pelanggan_telp" maxlength="13" class="form-control" placeholder="Telepon" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Email <br>
+              <small class="form-text text-danger">Wajib diisi</small>
+            </label>
+            <div class="col-md-5">
+              <input type="text" v-model="input.pelanggan_email" name="pelanggan_email" maxlength="25" class="form-control" placeholder="E-mail" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Alamat<br>
+              <small class="form-text text-danger">Wajib diisi</small>
+            </label>
+            <div class="col-md-7">
+              <summernote name="pelanggan_alamat" :model="content" class="form-control" :value="input.pelanggan_alamat" :config="config" placeholder="Alamat"></summernote>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Foto Pelanggan<br>
+              <small class="form-text text-info">Boleh Kosong</small>
+            </label>
+            <div class="col-md-6">
+                <input type="file" class="file-styled" id="pelanggan-img-file" name="pelanggan_img" accept=".jpg,.jpeg,.png"/>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+            </label>
+            <div class="col-md-6">
+                <img id="pelanggan-img" class="img-thumbnail" src="" alt="Pelanggan" width="150px">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="text-right col-md-12">
+              <button type="reset" class="btn btn-warning waves-effect waves-light m-t-10"><i class="fa fa-refresh"></i> Reset</button>
+              <button type="submit" class="btn btn-success waves-effect waves-light m-t-10">
+                <i class="fa fa-check" v-show="!loading"></i>
+                <i class="fa fa-spinner fa-spin" v-show="loading"></i>
+                Simpan
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+  $("select").select2({
+    allowClear: true
+  });
+    
+  function readURL(input) {  
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#pelanggan-img').attr('src', e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }  
+  $("#pelanggan-img-file").change(function(){
+    readURL(this);
+  });
+});
+// inisialisasi summernote
+var summernoteComponent = {
+
+    template: '<textarea :name="name"></textarea>',
+
+    props: {
+        model: {
+            required: true,
+        },
+        name: {
+            type: String,
+            required: true,
+        },
+        config: {
+            type: Object,
+            default: {},
+        },
+    },
+
+    mounted() {
+        let vm = this;
+        let config = this.config;
+
+        config.callbacks = {
+
+            onInit: function () {
+                $(vm.$el).summernote("code", vm.model);
+            },
+
+            onChange: function () {
+                vm.$emit('change', $(vm.$el).summernote('code'));
+            },
+
+            onBlur: function () {
+                vm.$emit('change', $(vm.$el).summernote('code'));
+            }
+        };
+
+        $(this.$el).summernote(config);
+
+    },
+}
+
+var http = axios.create({
+  baseURL: "<?php echo $_smarty_tpl->getVariable('config')->value->site_url('informasi/data_pelanggan');?>
+"
+});
+
+var vm = new Vue({
+  el: "#app",
+  components: {
+    summernote: summernoteComponent
+  },
+  data: {
+    input: {
+      pelanggan_nama: '',
+      pelanggan_telp: '',
+      pelanggan_email: '',
+      pelanggan_alamat:'',
+    },
+    loading: false,
+    content: null,
+    config: {
+      height: 250,
+      toolbar: [
+        // [groupName, [list of button]]
+        ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['fontsize', 'color']],
+        ['para', ['paragraph']],
+        ['insert', ['link','image', 'doc', 'video']], // image and doc are customized buttons
+        ['misc', ['codeview']],
+      ],
+    }, 
+  },
+  mounted: function() {
+    $('[data-toggle="tooltip"]').tooltip();
+    $("select").select2({
+      allowClear: true
+    });
+    $(".file-styled").uniform({
+        fileButtonClass: 'action btn btn-default'
+    });
+  },
+  methods:{
+    onStartDatetimeChanged: function ($event) {
+      this.$set(this.startRange, 'minDate', $event.date);
+    },
+    onEndDatetimeChanged: function ($event) {
+      this.$set(this.endRange, 'maxDate', $event.date);
+    },
+    onFileChange: function(event){
+      this.input.lampiran_file = event.target.files[0];
+    },
+    addProcess: function () {
+      var self = this;
+      this.loading = true;
+
+      var lampiran_file = this.input.lampiran_file;
+
+      let myForm = document.getElementById('addForm');
+      let formData = new FormData(myForm);
+      formData.append('lampiran_file', lampiran_file);
+
+      http.post('/add_process', formData)
+      .then(response => {
+        this.loading = false;
+
+        if(response.data.status == 'success'){
+          this.input.kepengurusan_nama = '';
+          this.input.kepengurusan_tahun_mulai = '';
+          this.input.kepengurusan_tahun_berakhir = '';
+          this.input.lampiran_file = '';
+        }
+
+        self.sweetAlert(response.data);
+      })
+      .catch(error => {
+        this.loading = false;
+        console.error(error);
+      })
+    }
+  }
+});
+</script>

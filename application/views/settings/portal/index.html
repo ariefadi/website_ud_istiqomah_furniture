@@ -1,0 +1,72 @@
+<div class="row bg-title">
+  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <h4 class="page-title hidden-xs">{$page_title}</h4>
+    <h4 class="page-title text-center visible-xs">{$page_title}</h4>
+  </div>
+  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12 hidden-xs">
+    <ol class="breadcrumb">
+      <li><a href="#">Pengaturan</a></li>
+      <li class="active">Web Portal</li>
+    </ol>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Web Portal
+        <div class="panel-btn">
+          <a href="{$config->site_url('settings/portal/add/')}" id="demo-btn-addrow" class="btn btn-sm btn-success">
+            <i class="fa fa-plus"></i> 
+            <span class="hidden-xs">Tambah</span>
+          </a>
+        </div>
+      </div>
+      <div class="panel-body">
+        <!-- notification template -->
+        {include file="base/templates/notification.html"}
+        <!-- end of notification template-->
+        <div class="table-responsive">
+          <table id="row-spacing" class="table table-borderless hover-table" style="min-width: 1029px;">
+            <thead>
+              <tr>
+                <th width='5%' class="text-center">ID</th>
+                <th width='20%' class="text-left">Nama Portal</th>
+                <th width='25%' class="text-left">Judul</th>
+                <th width='35%' class="text-left">Deskripsi</th>
+                <th width='15%' class="text-center"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {foreach from=$rs_id item=result}
+              <tr>
+                <td class="text-center">{$result.portal_id}</td>
+                <td>{$result.portal_nm|upper}</td>
+                <td>{$result.site_title}</td>
+                <td>{$result.site_desc}</td>
+                <td class="text-center">
+                  <a href="{$config->site_url('settings/portal/edit/'|cat:$result.portal_id)}" class=""  data-toggle="tooltip" data-placement="top" title="Edit">
+                    <i class="fa fa-pencil text-info m-r-10"></i>
+                  </a>
+                  <a href="{$config->site_url('settings/portal/delete/'|cat:$result.portal_id)}" class="" data-toggle="tooltip" data-placement="top" title="Delete">
+                    <i class="fa fa-times text-danger"></i>
+                  </a>
+                </td>
+              </tr>
+              {foreachelse}
+              <tr>
+                <td colspan="5">Data tidak ditemukan!</td>
+              </tr>
+              {/foreach}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>

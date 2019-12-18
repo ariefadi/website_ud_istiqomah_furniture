@@ -1,0 +1,132 @@
+<div class="row bg-title">
+  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <h4 class="page-title hidden-xs">{$page_title}</h4>
+    <h4 class="page-title text-center visible-xs">{$page_title}</h4>
+  </div>
+  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12 hidden-xs">
+    <ol class="breadcrumb">
+      <li><a href="#">Master Data</a></li>
+      <li><a href="{$config->site_url('master/jabatan')}">{$page_title}</a></li>
+      <li class="active">Tambah</li>
+    </ol>
+  </div>
+</div>
+<div class="row" id="app">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Tambah Data Jabatan Fungsional
+        <div class="panel-btn">
+          <a href="{$config->site_url('master/jabatan')}" class="btn btn-outline btn-default btn-sm"><i class="fa fa-angle-left"></i><span class="hidden-xs"> Kembali</span></a>
+        </div>
+      </div>
+      <div class="panel-body">
+        <!-- notification template -->
+        {include file="base/templates/notification.html"}
+        <!-- end of notification template-->
+        <form class="form-horizontal" id="addForm" v-on:submit.prevent="addProcess">
+          <div class="form-group">
+            <label class="col-md-3 col-form-label">
+              Induk Jabatan<br>
+              <small class="form-text text-danger">Wajib diisi</small>
+            </label>
+            <div class="col-md-7">
+              <select v-model="input.parent_id" name="parent_id" class="form-control select2" data-placeholder="Pilih" style="width: 100%">
+                <option value="0">*</option>
+                {$list_parent|default:''}
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Nama Jabatan<br>
+              <small class="form-text text-danger">Wajib diisi</small>
+            </label>
+            <div class="col-md-7">
+              <input type="text" v-model="input.jabatan_nm" name="jabatan_nm" maxlength="100" class="form-control" placeholder="Nama Jabatan" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Group<br>
+              <small class="form-text text-danger">Wajib diisi</small>
+            </label>
+            <div class="col-md-7">
+              <div class="form-check">
+                <label class="custom-control custom-radio">
+                  <input name="grup" class="custom-control-input" type="radio" v-model="input.grup" value="pengurus">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">Pengurus</span>
+                </label>
+                <label class="custom-control custom-radio">
+                  <input name="grup" class="custom-control-input" type="radio" v-model="input.grup" value="penasihat">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">Penasihat</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="text-right col-md-12">
+              <button type="reset" class="btn btn-warning waves-effect waves-light m-t-10"><i class="fa fa-refresh"></i> Reset</button>
+              <button type="submit" class="btn btn-success waves-effect waves-light m-t-10">
+                <i class="fa fa-check" v-show="!loading"></i>
+                <i class="fa fa-spinner fa-spin" v-show="loading"></i>
+                Simpan
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    $("select").select2({
+      allowClear: true
+    });
+  }); 
+var http = axios.create({
+  baseURL: "{$config->site_url('master/jabatan')}"
+});
+var vm = new Vue({
+  el: "#app",
+  data: {
+    input: {
+      parent_id: '',
+      jabatan_nm: '',
+      grup:''
+    },
+    loading: false
+  },
+  methods:{
+    addProcess: function () {
+      var self = this;
+      this.loading = true;
+
+      let myForm = document.getElementById('addForm');
+      let formData = new FormData(myForm);
+
+      http.post('/add_process', formData)
+      .then(response => {
+        this.loading = false;
+
+        if(response.data.status == 'success'){
+          this.input.parent_id = '';
+          this.input.jabatan_nm = '';
+          this.input.grups = '';
+        }
+
+        self.sweetAlert(response.data);
+      })
+      .catch(error => {
+        this.loading = false;
+        console.error(error);
+      })
+    }
+  }
+});
+</script>

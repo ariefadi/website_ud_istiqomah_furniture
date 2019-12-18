@@ -1,0 +1,66 @@
+<!-- Page heading start-->
+<div class = "row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Navigation</h4>
+    </div>
+    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+        <ol class="breadcrumb">
+            <li><a href="#">Pengaturan Aplikasi</a></li>
+            <li class="active">Navigation</li>
+        </ol>
+    </div>
+</div>
+<!-- Page heading end-->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Navigation
+        </div>
+        <div class="panel-body p-0">
+          <!-- notification template -->
+          {include file="base/templates/notification.html"}
+          <!-- end of notification template-->
+          <div class="table-responsive">
+            <table id="row-spacing" class="table table-borderless hover-table" style="min-width: 1029px;">
+              <thead>
+                <tr>
+                  <th width='10%' class="text-center">ID</th>
+                  <th width='25%' class="text-left">Nama Portal</th>
+                  <th width='40%' class="text-left">Judul</th>
+                  <th width='15%' class="text-center">Jumlah Menu</th>
+                  <th width='15%' class="text-center"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {foreach from=$rs_id item=result}
+                <tr>
+                  <td class="text-center">{$result.portal_id}</td>
+                  <td>{$result.portal_nm|upper}</td>
+                  <td>{$result.site_title|upper}</td>
+                  <td class="text-center">{$result.total_menu}</td>
+                  <td class="text-center">
+                    <a href="{$config->site_url('settings/menu/navigation/'|cat:$result.portal_id)}" class=""  data-toggle="tooltip" data-placement="top" title="Edit">
+                      <i class="fa fa-pencil text-info m-r-10"></i>
+                    </a>
+                  </td>
+                </tr>
+                {foreachelse}
+                <tr>
+                  <td colspan="5">Data tidak ditemukan!</td>
+                </tr>
+                {/foreach}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--body wrapper end-->
+<script type="text/javascript">
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>

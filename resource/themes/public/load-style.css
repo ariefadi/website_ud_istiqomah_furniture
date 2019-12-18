@@ -1,0 +1,25 @@
+/* CSS Document */
+/* created by @kintar-2017 */
+
+@import url('plugins/source-sans-pro/css/style.css');
+/* Bootstrap */
+@import url('css/bootstrap.min.css');
+/* Font Awesome */
+@import url('plugins/fonts/font-awesome/css/font-awesome.min.css');
+/* Linearicons */
+@import url('plugins/fonts/linearicons/css/linearicons.css');
+/* Owl Carousel */
+@import url('css/owl.carousel.min.css');
+@import url('css/owl.theme.min.css');
+/* Magnific popup */
+@import url('css/magnific-popup.css');
+/* Bootstrap Datepicker */
+@import url('css/bootstrap.datepicker.css');
+/* YTPlayer */
+@import url('css/jquery.mb.YTPlayer.min.css');
+/* Vegas Slider */
+@import url('css/vegas.min.css');
+/* Template Stylesheet */
+@import url('css/style.css');
+/* Custom */
+@import url('css/custom.css');

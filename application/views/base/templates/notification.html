@@ -1,0 +1,60 @@
+<!-- notification template -->
+{if $notification_header|default:'' == "error"}
+<div class="alert alert-warning fade in">
+    <button type="button" class="close close-sm" data-dismiss="alert">
+        <i class="fa fa-times"></i>
+    </button>
+    <h4>
+        <i class="icon-ok-sign"></i>
+        {$notification_header|upper}
+    </h4>
+    <p>
+        {$notification_message}
+        {$notification_error}
+    </p>
+</div>
+{elseif $notification_header|default:'' == "success"}
+<div class="alert alert-success fade in">
+    <button type="button" class="close close-sm" data-dismiss="alert">
+        <i class="fa fa-times"></i>
+    </button>
+    <h4>
+        <i class="icon-ok-sign"></i>
+        {$notification_header|upper}
+    </h4>
+    <p>
+        {$notification_message}
+        {$notification_error}
+    </p>
+</div>
+{elseif $notification_header|default:'' == "info"}
+<div class="alert alert-info fade in">
+    <button type="button" class="close close-sm" data-dismiss="alert">
+        <i class="fa fa-times"></i>
+    </button>
+    <h4>
+        <i class="icon-ok-sign"></i>
+        {$notification_header|upper}
+    </h4>
+    <p>
+        {$notification_message}
+        {$notification_error}
+    </p>
+</div>
+{elseif $notification_header|default:'' == "warning_error"}
+<div class="alert alert-danger fade in">
+    <button type="button" class="close close-sm" data-dismiss="alert">
+        <i class="fa fa-times"></i>
+    </button>
+    <h4>
+        <i class="icon-ok-sign"></i>
+        WARNING
+    </h4>
+    <p>
+        {$notification_message}
+        {$notification_error}
+    </p>
+</div>
+{else}
+{/if}
+<!-- End of notification template -->

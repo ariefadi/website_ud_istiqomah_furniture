@@ -1,0 +1,142 @@
+<div class="row bg-title">
+  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <h4 class="page-title hidden-xs">{$page_title}</h4>
+    <h4 class="page-title text-center visible-xs">{$page_title}</h4>
+  </div>
+  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12 hidden-xs">
+    <ol class="breadcrumb">
+      <li><a href="#">Pengaturan Aplikasi</a></li>
+      <li><a href="{$config->site_url('settings/portal')}">Web Portal</a></li>
+      <li class="active">Tambah</li>
+    </ol>
+  </div>
+</div>
+<div class="row" id="app">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Tambah Data
+        <div class="panel-btn">
+          <a href="{$config->site_url('settings/portal')}" class="btn btn-outline btn-default btn-sm"><i class="fa fa-angle-left"></i> Kembali</a>
+        </div>
+      </div>
+      <div class="panel-body">
+        <!-- notification template -->
+        {include file="base/templates/notification.html"}
+        <!-- end of notification template-->
+        <form class="form-horizontal" id="addForm" v-on:submit.prevent="addProcess" enctype="multipart/form-data"> 
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Nama Portal <br>
+              <small class="form-text text-danger">Wajib diisi.</small>
+            </label>
+            <div class="col-md-7">
+              <input type="text" v-model="input.portal_nm" name="portal_nm" maxlength="50" placeholder="Nama Portal" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Judul Web <br>
+              <small class="form-text text-danger">Wajib diisi.</small>
+            </label>
+            <div class="col-md-7">
+              <input type="text" v-model="input.site_title" name="site_title" maxlength="100" placeholder="Judul Web" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Deskripsi Web <br>
+              <small class="form-text text-danger">Wajib diisi.</small>
+            </label>
+            <div class="col-md-7">
+              <input type="text" v-model="input.site_desc" name="site_desc" maxlength="100" placeholder="Deskripsi Web" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Meta Description <br>
+              <small class="form-text text-danger">Wajib diisi.</small>
+            </label>
+            <div class="col-md-7">
+              <textarea class="form-control" v-model="input.meta_desc" placeholder="Meta Description" name="meta_desc"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Meta Keyword <br>
+              <small class="form-text text-danger">Wajib diisi.</small>
+            </label>
+            <div class="col-md-7">
+              <input type="text" v-model="input.meta_keyword" name="meta_keyword" maxlength="255" placeholder="Meta Keyword" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="text-right col-md-12">
+              <button type="reset" class="btn btn-warning waves-effect waves-light m-t-10"><i class="fa fa-refresh"></i> Reset</button>
+              <button type="submit" class="btn btn-success waves-effect waves-light m-t-10">
+                <i class="fa fa-check" v-show="!loading"></i>
+                <i class="fa fa-spinner fa-spin" v-show="loading"></i>
+                Simpan
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+  $("select").select2({
+    allowClear: true
+  });
+});
+
+var http = axios.create({
+  baseURL: "{$config->site_url('settings/portal')}"
+});
+  
+new Vue({
+  el: "#app",
+  data: {
+    input: {
+      portal_nm: '',
+      site_title: '',
+      site_desc: '',
+      meta_desc: '',
+      meta_keyword: ''
+    },
+    loading: false
+  },
+  methods: {
+    addProcess: function () {
+      var self = this;
+
+      this.loading = true;
+      let myForm = document.getElementById('addForm');
+      let formData = new FormData(myForm);
+
+      http.post('/add_process', formData)
+      .then(response => {
+        this.loading = false;
+          
+        if(response.data.status == 'success'){
+          this.input.portal_nm = '';
+          this.input.site_title = '';
+          this.input.site_desc = '';
+          this.input.meta_desc = '';
+          this.input.meta_keyword = '';
+        }
+
+        self.sweetAlert(response.data);
+      })
+      .catch(error => {
+        this.loading = false;
+        console.error(error);
+      });
+    }
+  }
+})
+
+</script>

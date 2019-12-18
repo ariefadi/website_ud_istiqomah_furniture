@@ -1,0 +1,27 @@
+/* CSS Document */
+/* created by @kintar-2016 */
+/* Open Sans Font [ OPTIONAL ] */
+@import url('plugins/open-sans/open-sans.css');
+/* Bootstrap Stylesheet [ REQUIRED ] */
+@import url('css/bootstrap.min.css');
+/* Nifty Stylesheet [ REQUIRED ] */
+@import url('css/nifty.css');
+/* Nifty Premium Icon [ DEMONSTRATION ] */
+@import url('plugins/demo/nifty-demo-icons.css');
+/*Demo [ DEMONSTRATION ]*/
+@import url('plugins/demo/nifty-demo.css');
+/* Pace - Page Load Progress Par [OPTIONAL] */
+@import url('plugins/pace/pace.css');
+/* Pace - Page Load Progress Par [OPTIONAL] */
+@import url('css/themes/type-c/theme-mint.css');
+/* Icon - Fontawesome [OPTIONAL] */
+@import url('plugins/font-awesome/css/font-awesome.min.css');
+/* Icon - ionicons [OPTIONAL] */
+@import url('plugins/ionicons/css/ionicons.min.css');
+/* Icon - themify [OPTIONAL] */
+@import url('plugins/themify-icons/themify-icons.min.css');
+/* Magic Checkbox [ OPTIONAL ] */
+@import url('plugins/magic-check/css/magic-check.min.css');
+
+@import url('plugins/animate-css/animate.css');
+@import url('css/custom.css');

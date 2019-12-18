@@ -1,0 +1,106 @@
+<ol class="breadcrumb">
+  <li><a href="#">Home</a></li>
+  <li class="active">Profil</li>
+</ol>
+<div id="page-content">
+  <div class="row">
+    <div class="col-lg-10 col-md-offset-1">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="panel">
+            <div class="text-center pad-all bord-btm">
+              <div class="pad-ver">
+                <img src="{$BASEURL}/resource/doc/images/users/{$result.user_img}" class="img-lg img-border img-circle" alt="Profile Picture">
+              </div>
+              <h4 class="text-lg text-overflow mb-5">{$result.personal_nama}</h4>
+              <p class="text-sm text-muted mar-no">{$result.role_nm}</p>
+              <p class="text-sm text-muted">{$result.koperasi_nama}</p>
+
+              <a href="{$config->site_url('login/welcome/logout_process')}" class="btn btn-block btn-danger">Logout</a>
+            </div>
+            <ul class="list-group bg-trans text-sm pad-btm pad-top">
+
+              <!-- Profile Details -->
+              <li class="list-group-item list-item-sm text-primary text-semibold">
+                <i class="fa fa-credit-card fa-1x icon-fw"></i> {$personal.personal_no_id}
+              </li>
+              <li class="list-group-item list-item-sm">
+                <i class="fa fa-map-marker fa-1x icon-fw"></i> {$personal.personal_alamat}
+              </li>
+              <li class="list-group-item list-item-sm">
+                <i class="fa fa-venus-mars fa-1x icon-fw"></i> {if $personal.personal_jk == "L"} Laki-Laki{else} Perempuan{/if}
+              </li>
+              <li class="list-group-item list-item-sm">
+                <i class="fa fa-mobile fa-1x icon-fw"></i> {$personal.personal_hp}
+              </li>
+
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="panel panel-primary">
+
+            <!--Panel heading-->
+            <div class="panel-heading">
+              <h3 class="panel-title">Data Akun</h3>
+            </div>
+
+            <!--Panel body-->
+            <div class="panel-body">
+              <!-- notification template -->
+              {include file="base/templates/notification.html"}
+              <!-- end of notification template-->
+              <form class="form-horizontal" action="{$config->site_url('home/welcome/update_user')}" method="post">
+                <div class="form-group">
+                  <label class="control-label col-md-3">Role</label>
+                  <div class="col-md-9">
+                    <p class="control-static-label">
+                      : {$com_user.role_nm}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3">E-Mail</label>
+                  <div class="col-md-9">
+                    <p class="control-static-label">
+                      : {$com_user.user_mail}
+                    </p>
+                  </div>
+                </div>
+                <p class="text-main text-semibold">
+                  Ubah Password
+                </p>
+                <div class="form-group">
+                  <label class="control-label col-md-3">Password Lama</label>
+                  <div class="col-md-6">
+                    <input type="password" class="form-control" name="old_password" value="">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3">Password Baru</label>
+                  <div class="col-md-6">
+                    <input type="password" class="form-control" name="new_password" value="">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3">Konfirmasi Password Baru</label>
+                  <div class="col-md-6">
+                    <input type="password" class="form-control" name="new_password_confirm" value="">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3"></label>
+                  <div class="col-md-6">
+                    <button type="submit" name="button" class="btn btn-sm btn-primary">
+                      <i class="fa fa-save"></i> Simpan
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

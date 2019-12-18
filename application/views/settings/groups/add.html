@@ -1,0 +1,121 @@
+<div class="row bg-title">
+  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <h4 class="page-title hidden-xs">{$page_title}</h4>
+    <h4 class="page-title text-center visible-xs">{$page_title}</h4>
+  </div>
+  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12 hidden-xs">
+    <ol class="breadcrumb">
+      <li><a href="#">Pengaturan Aplikasi</a></li>
+      <li><a href="{$config->site_url('settings/groups')}">{$page_title}</a></li>
+      <li class="active">Tambah</li>
+    </ol>
+  </div>
+</div>
+<div class="row" id="app">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Tambah Data
+        <div class="panel-btn">
+          <a href="{$config->site_url('settings/groups')}" class="btn btn-outline btn-default btn-sm"><i class="fa fa-angle-left"></i> Kembali</a>
+        </div>
+      </div>
+      <div class="panel-body">
+        <!-- notification template -->
+        {include file="base/templates/notification.html"}
+        <!-- end of notification template-->
+        <form class="form-horizontal" id="addForm" v-on:submit.prevent="addProcess">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Nama Group<br>
+              <small class="form-text text-danger">Wajib diisi</small>
+            </label>
+            <div class="col-md-7">
+              <input type="text" v-model="input.group_name" name="group_name" maxlength="50" class="form-control" placeholder="Nama Group" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">
+              Deskripsi Group<br>
+              <small class="form-text text-danger">Wajib diisi</small>
+            </label>
+            <div class="col-md-7">
+              <input type="text" v-model="input.group_desc" name="group_desc" maxlength="100"  class="form-control" placeholder="Deskripsi Group" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="portal_id" class="col-md-3 col-form-label">
+              Portal<br>
+              <small class="form-text text-danger">Wajib diisi.</small>
+            </label>
+            <div class="col-sm-9 col-md-7">
+              <select v-model="input.portal_id" v-select="input.portal_id" name="portal_id" class="form-control select2" data-placeholder="Pilih Portal" style="width:100%">
+                <option value=""></option>
+                <option v-for="portal in rs_portal" :value="portal.portal_id" v-text="portal.portal_nm"></option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="text-right col-md-12">
+              <button type="reset" class="btn btn-warning waves-effect waves-light m-t-10"><i class="fa fa-refresh"></i> Reset</button>
+              <button type="submit" class="btn btn-success waves-effect waves-light m-t-10">
+                <i class="fa fa-check" v-show="!loading"></i>
+                <i class="fa fa-spinner fa-spin" v-show="loading"></i>
+                Simpan
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+  $("select").select2({
+    allowClear: true
+  });
+}); 
+var http = axios.create({
+  baseURL: "{$config->site_url('settings/groups')}"
+});
+var vm = new Vue({
+  el: "#app",
+  data: {
+    rs_portal: {$rs_portal|json_encode},
+    input: {
+      group_name: '',
+      group_desc: '',
+      portal_id: ''
+    },
+    loading: false,
+  },
+  methods:{
+    addProcess: function () {
+      var self = this;
+      this.loading = true;
+
+      let myForm = document.getElementById('addForm');
+      let formData = new FormData(myForm);
+
+      http.post('/add_process', formData)
+      .then(response => {
+        this.loading = false;
+
+        if(response.data.status == 'success'){
+          this.input.group_name = '';
+          this.input.group_desc = '';
+          this.input.portal_id = '';
+        }
+
+        self.sweetAlert(response.data);
+      })
+      .catch(error => {
+        this.loading = false;
+        console.error(error);
+      })
+    }
+  }
+});
+</script>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- head -->
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+  
+  <!-- load meta -->
+  {foreach $meta as $item}
+  {$item}
+  {/foreach}
+  <!-- End load meta -->
+  <meta property="fb:pages" content="169659576484433" />
+  <meta name='robots' content='index,follow' />
+  <title>{$site.site_title|default:''}</title>
+  <link href="{$BASEURL}resource/doc/images/icon/favicon.gif" rel="SHORTCUT ICON" />
+  <!-- themes style -->
+  <link rel="stylesheet" type="text/css" href="{$THEMESPATH}" />
+  <!-- other style -->
+  {$LOAD_STYLE}
+  <script type="text/javascript" src="{$BASEURL}resource/themes/public/plugins/js/jquery-1.12.3.min.js"></script>
+  {$LOAD_JAVASCRIPT_TOP}
+</head>
+<body id="body" class="wide-layout preloader-active">
+  <!-- ============ PRELOADER =============== -->
+  <div id="preloader" class="preloader">
+    <div class="loader fa fa-spin pos-center">
+    </div>
+  </div>
+  <!-- ============ WRAPPER =============== -->
+  <div id="pageWrapper" class="page-wrapper" style="height: 100%">
+    <!-- ============ Content =============== -->
+    <main class="main-content" style="height: 100%">
+      {include file="$template_content"}
+    </main>
+    <!-- Footer -->
+    <footer class="main-footer" style="background-color: #EAEAEA">
+      <div class="sub-footer" style="background-color: #EAEAEA">
+        <div class="container">
+          <h6 class="text-muted text-center font-12">
+            &copy; Copyright 2017  PT. BUMR Pangan Terhubung.
+          </h6>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- load javascript -->
+  {$LOAD_JAVASCRIPT}
+  <!-- end of javascript  -->
+</body>
+</html>

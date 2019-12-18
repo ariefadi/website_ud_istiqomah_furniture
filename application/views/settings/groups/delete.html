@@ -1,0 +1,108 @@
+<div class="row bg-title">
+  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <h4 class="page-title hidden-xs">{$page_title}</h4>
+    <h4 class="page-title text-center visible-xs">{$page_title}</h4>
+  </div>
+  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12 hidden-xs">
+    <ol class="breadcrumb">
+      <li><a href="#">Pengaturan Aplikasi</a></li>
+      <li><a href="{$config->site_url('settings/groups')}">{$page_title}</a></li>
+      <li class="active">Hapus</li>
+    </ol>
+  </div>
+</div>
+<div class="row" id="app">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Hapus Data
+        <div class="panel-btn">
+          <a href="{$config->site_url('settings/groups')}" class="btn btn-outline btn-default btn-sm"><i class="fa fa-angle-left"></i> Kembali</a>
+        </div>
+      </div>
+      <div class="panel-body">
+        <!-- notification template -->
+        {include file="base/templates/notification.html"}
+        <!-- end of notification template-->
+        <form class="form-horizontal" id="deleteForm" v-on:submit.prevent="deleteProcess">
+          <input type="hidden" name="group_id" :value="result.group_id" />
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Nama Group</label>
+            <div class="col-md-9">
+              <p class="control-static-label" v-text="': '+result.group_name"></p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Deskripsi Group</label>
+            <div class="col-md-9">
+              <p class="control-static-label" v-text="': '+result.group_desc"></p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Portal</label>
+            <div class="col-md-9">
+              <p class="control-static-label" v-text="': '+result.portal_nm"></p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class=" text-right col-md-12">
+              <button type="submit" class="btn btn-danger waves-effect waves-light m-t-10">
+                <i class="fa fa-trash" v-show="!loading"></i>
+                <i class="fa fa-spinner fa-spin" v-show="loading"></i>
+                Hapus
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+var http = axios.create({
+  baseURL: "{$config->site_url('settings/groups')}"
+});
+
+new Vue({
+  el: "#app",
+  data: {
+    result: {$result|json_encode},
+    loading: false,
+  },
+  methods: {
+    deleteProcess: function () {
+      var self = this;
+      this.loading = true;
+
+      swal({
+        title: "Yakin anda akan menghapus data ?",
+        text: "Data akan dihapus secara permanen",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Ya, hapus data",
+        cancelButtonText: "Batalkan",
+        closeOnConfirm: false,
+        closeOnCancel: true
+      },
+      function(){
+        this.loading = true;
+
+        let myForm = document.getElementById('deleteForm');
+        let formData = new FormData(myForm);
+
+        http.post('/delete_process', formData)
+        .then(response => {
+          this.loading = false;
+          self.sweetAlert(response.data);
+        })
+        .catch(error => {
+          this.loading = false;
+          console.error(error);
+        });
+      });
+      this.loading = false;
+    }
+  }
+})
+</script>

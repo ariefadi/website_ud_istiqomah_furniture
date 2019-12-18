@@ -1,0 +1,175 @@
+<!-- Page heading start-->
+<div class="row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+      <h4 class="page-title">{$page_title}</h4>
+    </div>
+    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+      <ol class="breadcrumb">
+        <li>
+          <a href="#"></a>Pengaturan Aplikasi</li>
+          <li>
+            <a href="#"></a>{$page_title}</li>
+            <li class="active">{$result.role_nm|default:''}</li>
+          </ol>
+        </div>
+      </div>
+      <!-- Page heading end-->
+      <div class="row" id="app">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Permissions From Administrator {$result.role_nm|default:''}
+              <div class="panel-btn">
+                <a href="{$config->site_url('settings/permissions')}" class="btn btn-outline btn-default btn-sm">
+                  <i class="fa fa-angle-left"></i> Kembali</a>
+                </div>
+                <h3 class="panel-title"></h3>
+              </div>
+              <div class="panel-search">
+                <form class="form-horizontal" id="searchForm" v-on:submit.prevent="searchProcess">
+                  <div class="form-group row">
+                    <div class="col-md-6">
+                      <div class="input-group">
+                        <select name="portal_id" class="form-control select2" data-placeholder="Pilih Portal">
+                          <option value=""></option>
+                          {foreach $rs_portal as $portal}
+                          <option value="{$portal.portal_id}" {if $search.portal_id|default:'' eq $portal.portal_id}selected="selected"{/if}>{$portal.portal_id} / {$portal.portal_nm|upper}</option>
+                          {/foreach}
+                        </select>
+                        <span class="input-group-btn">
+                          <button type="submit" name="search" value="cari" class="btn btn-default bootstrap-touchspin-up">
+                            <i class="ti-search" v-show="!loading"></i>
+                            <i class="fa fa-spinner fa-spin" v-show="loading"></i>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <form class="form-horizontal" id="processForm" v-on:submit.prevent="permissionProcess">
+                <div class="panel-body p-0">
+                  <input type="hidden" name="portal_id" :value="default_portal_id" />
+                  <input type="hidden" name="role_id" :value="result.role_id" />
+                  <!-- notification template -->
+                  {include file="base/templates/notification.html"}
+                  <!-- end of notification template-->
+                  <transition name="fade">
+                    <div class="m-b-10 text-center" v-show="loading">
+                      <img src="{$BASEURL}/resource/doc/images/loading.gif" style="width:120px;height:120px" alt="loading...">
+                      <h3>Menampilkan Data Permissions Administrator</h3>
+                      <span>Mohon menunggu beberapa waktu...</span>
+                    </div>
+                  </transition>
+                  <div class="table-responsive">
+                    <table id="row-spacing" class="table table-borderless hover-table" style="min-width: 1029px;">
+                      <thead>
+                        <tr>
+                          <th width='5%' class="text-center">
+                            <input type="checkbox" class="checked-all-menu" checked>
+                          </th>
+                          <th width='40%' class="text-left">Judul Menu</th>
+                          <th width='15%' class="text-left">URL</th>
+                          <th width='10%' class="text-center">Create</th>
+                          <th width='10%' class="text-center">Read</th>
+                          <th width='10%' class="text-center">Update</th>
+                          <th width='10%' class="text-center">Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody v-html="list_menu">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="panel-footer text-right">
+                  <button type="submit" class="btn btn-success waves-effect waves-light m-t-10">
+                    <i class="fa fa-check" v-show="!loading"></i>
+                    <i class="fa fa-spinner fa-spin" v-show="loading"></i>
+                    Simpan
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript">
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip();
+          $(".checked-all").click(function() {
+            var status = $(this).is(":checked");
+            if (status === true) {
+              $(".r" + $(this).val()).prop('checked', true);
+            } else {
+              $(".r" + $(this).val()).prop('checked', false);
+            }
+          });
+          $(".checked-all-menu").click(function() {
+            var status = $(this).is(":checked");
+            if (status === true) {
+              $(".r-menu").prop('checked', true);
+            } else {
+              $(".r-menu").prop('checked', false);
+            }
+          });
+          $(".select2").select2({
+            allowClear: true
+          });
+        });
+  
+        var http = axios.create({
+          baseURL: "{$config->site_url('settings/permissions')}"
+        });
+  
+        var vm = new Vue({
+          el: "#app",
+          data: {
+            rs_portal: {$rs_portal|json_encode},
+            result: {$result|json_encode},
+            list_menu: {$list_menu|json_encode},
+            default_portal_id:{$default_portal_id},
+            loading: false,
+          },
+          methods: {
+            searchProcess: function() {
+              var self = this;
+              this.loading = true;
+              self.setLoading = true;
+              let myForm = document.getElementById('searchForm');
+              let formData = new FormData(myForm);
+  
+              http.post('/filter_portal_process', formData)
+              .then(response => {
+                this.loading = false;
+                self.setLoading = false;
+                this.list_menu = response.data.list_menu;
+                this.search = response.data.search;
+              })
+              .catch(error => {
+                this.loading = false;
+                self.setLoading = false;
+                console.error(error);
+              });
+            },
+            permissionProcess: function () {
+              var self = this;
+              this.loading = true;
+  
+              let myForm = document.getElementById('processForm');
+              let formData = new FormData(myForm);
+  
+              http.post('/process', formData)
+              .then(response => {
+                this.loading = false;
+                self.sweetAlert(response.data);
+              })
+              .catch(error => {
+                this.loading = false;
+                console.error(error);
+              });
+            }
+          }
+        });
+        </script>
+  

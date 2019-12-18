@@ -1,0 +1,84 @@
+<!-- Page heading start-->
+<div class = "row bg-title">
+  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <h4 class="page-title">{$page_title}</h4>
+  </div>
+  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+    <ol class="breadcrumb">
+      <li><a href="#"></a>System Preferences</li>
+      <li class="active">{$page_title}</li>
+    </ol>
+  </div>
+</div>
+<!-- Page heading end-->
+<div class="row" id="app">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Pengaturan Logo
+      </div>
+      <form class="form-horizontal" id="addForm" v-on:submit.prevent="addProcess" enctype="multipart/form-data">
+        <div class="panel-body">
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label">Logo Perusahaan</label>
+            <div class="col-md-4">
+              <!-- <input type="file" name="logo_perusahaan" class="dropify" data-default-file="{$ftp_http}{$logo_perusahaan}" data-max-file-size="2M"> -->
+              <span class="form-text text-info">Format jpg/png max file size 2Mb</span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label">Logo iPangan</label>
+            <div class="col-md-4">
+              <!-- <input type="file" name="logo_ipangan" class="dropify" data-default-file="{$ftp_http}{$logo_ipangan}" data-max-file-size="2M"> -->
+              <span class="form-text text-info">Format jpg/png max file size 2Mb</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer text-right">
+          <button type="submit" class="btn btn-success waves-effect waves-light m-t-10" :disabled="loading">
+            <i class="fa fa-check" v-show="!loading"></i>
+            <i class="fa fa-spinner fa-spin" v-show="loading"></i>
+            Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--body wrapper end-->
+<script type="text/javascript">
+
+var http = axios.create({
+  baseURL: "{$config->site_url('settings/logo')}"
+});
+
+new Vue({
+  el: "#app",
+  data: {
+    loading: false
+  },
+  mounted: function(){
+    $('[data-toggle="tooltip"]').tooltip();
+    $('.dropify').dropify();
+  },
+  methods: {
+    addProcess: function () {
+      var self = this;
+
+      this.loading = true;
+      let myForm = document.getElementById('addForm');
+      let formData = new FormData(myForm);
+
+      http.post('/upload_logo_process', formData)
+      .then(response => {
+        this.loading = false;
+        self.sweetAlert(response.data);
+      })
+      .catch(error => {
+        this.loading = false;
+        console.error(error);
+      });
+    }
+  }
+})
+</script>

@@ -1,0 +1,195 @@
+<!-- Page heading start-->
+<div class="row bg-title">
+  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <h4 class="page-title hidden-xs">{$page_title}</h4>
+    <h5 class="page-title text-center visible-xs">{$page_title}</h5>
+  </div>
+  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12 hidden-xs">
+    <ol class="breadcrumb">
+      <li><a href="#">{$page_title}</a></li>
+      <li><a href="{$config->site_url('users/akun/')}">Akun</a></li>
+      <li class="active">Hapus</li>
+    </ol>
+  </div>
+</div>
+<!-- Page heading end-->
+<div class="row" id="app">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Hapus Akun User
+        <div class="panel-btn">
+          <a href="{$config->site_url('users/akun/')}" id="demo-btn-addrow" class="btn btn-sm btn-primary"> <i class="fa fa-chevron-left"></i> Kembali</a>
+        </div>
+      </div>
+      <div class="panel-body">
+        <!--Form-->
+        <!-- notification template -->
+        {include file="base/templates/notification.html"}
+        <!-- end of notification template-->
+        <form class="form-horizontal" id="deleteForm" v-on:submit.prevent="deleteProcess">
+          <input type="hidden" name="user_id" :value="result.user_id">
+          <input type="hidden" name="nik" :value="result.nik">
+          <input type="hidden" name="personal_img" :value="result.personal_img">
+          <div class="form-group row">
+            <label class="col-md-12 control-label text-left"><b>Data Personal</b></label>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">Nama Lengkap</label>
+            <div class="col-md-7">
+              <p class="form-control-static" v-text="': '+result.nama"></p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">Nomor Induk Kependudukan</label>
+            <div class="col-md-7">
+              <p class="form-control-static" v-text="': '+result.nik"></p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">Tempat dan Tanggal Lahir</label>
+            <div class="col-md-7">
+              <p class="form-control-static">: {$result.tempat_lahir|default:''}, {$dtm->get_full_date($result.tanggal_lahir|default:'')}</p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">Jenis Kelamin</label>
+            <div class="col-md-7">
+              <p class="form-control-static">
+                {if $result.jenis_kelamin == "L"}
+                : Laki - Laki
+                {elseif $result.jenis_kelamin == "P"}
+                : Perempuan
+                {/if}
+              </p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">Status Perkawinan</label>
+            <div class="col-md-7">
+              <p class="form-control-static">
+                {if $result.status_perkawinan == "belum kawin"}
+                : Belum Kawin
+                {elseif $result.status_perkawinan == "kawin"}
+                : Kawin
+                {elseif $result.status_perkawinan == "duda"}
+                : Duda
+                {elseif $result.status_perkawinan == "janda"}
+                : Janda
+                {/if}
+              </p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">Alamat</label>
+            <div class="col-md-7">
+              <p class="form-control-static" v-text="': '+result.alamat"></p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">RT/RW</label>
+            <div class="col-md-7">
+              <p class="form-control-static" v-text="': '+result.rt+' / '+result.rw"></p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">Pekerjaan</label>
+            <div class="col-md-7">
+              <p class="form-control-static" v-text="': '+result.pekerjaan"></p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">No Telp/HP</label>
+            <div class="col-md-7">
+              <p class="form-control-static" v-text="': '+result.telp"></p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-12 control-label text-right"><b>Data Akun</b></label>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">E-mail</label>
+            <div class="col-md-7">
+              <p class="form-control-static" v-text="': '+result.user_mail"></p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">Status</label>
+            <div class="col-md-7">
+              <p class="form-control-static">
+                {if $result.user_st == "1"}
+                : <label class="label label-success">Aktif</label>
+                {else}
+                : <label class="label label-danger">Tidak Aktif</label>
+                {/if}
+              </p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">User Image</label>
+            <div class="col-md-7">
+              <img src="{$ftp_http}{$result.personal_img}" alt="" width="200px">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class=" text-right col-md-12">
+              <button type="submit" class="btn btn-danger waves-effect waves-light m-t-10">
+                <i class="fa fa-trash" v-show="!loading"></i>
+                <i class="fa fa-spinner fa-spin" v-show="loading"></i>
+                Hapus
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--body wrapper end-->
+<script type="text/javascript">
+	var http = axios.create({
+	  baseURL: "{$config->site_url('users/akun')}"
+	});
+	
+	new Vue({
+	  el: "#app",
+	  data: {
+		result: {$result|json_encode},  
+		loading: false
+	  },
+	  methods: {
+		deleteProcess: function() {
+		  var self = this;
+		  this.loading = true;
+	
+		  swal({
+			title: "Yakin anda akan menghapus data ?",
+			text: "Data akan dihapus secara permanen",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Ya, hapus data",
+			cancelButtonText: "Batalkan",
+			closeOnConfirm: true
+		  },
+		  function(){
+			this.loading = true;
+	
+			let myForm = document.getElementById('deleteForm');
+			let formData = new FormData(myForm);
+	
+			http.post('/delete_process', formData)
+			.then(response => {
+			  this.loading = false;
+			  self.sweetAlert(response.data);
+			})
+			.catch(error => {
+			  this.loading = false;
+			  console.error(error);
+			});
+		  });
+		  this.loading = false;
+		}
+	  }
+	})
+</script>
